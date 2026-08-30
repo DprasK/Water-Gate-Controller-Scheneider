@@ -1,0 +1,26 @@
+{
+  "appName": "AWGC 3 Pintu — Secure SCADA COMMISSIONING",
+  "listen": {
+    "host": "127.0.0.1",
+    "port": 3100,
+    "tlsCertFile": "",
+    "tlsKeyFile": ""
+  },
+  "plc": {
+    "mode": "modbus-tcp",
+    "host": "127.0.0.1",
+    "port": 502,
+    "unitId": 1,
+    "timeoutMs": 1500,
+    "pollIntervalMs": 500,
+    "floatWordOrder": "CDAB",
+    "rev3ProfileVersion": 0
+  },
+  "security": {
+    "allowWrites": true,
+    "allowRev3Controls": true,
+    "allowSimulatorInputs": true,
+    "writeRatePerMinute": 60,
+    "auditFile": "./data/audit-commissioning.jsonl"
+  }
+}

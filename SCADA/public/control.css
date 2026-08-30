@@ -1,0 +1,18 @@
+.motion-note{display:block;margin-top:9px;color:var(--amber);font-size:10px;line-height:1.5}
+.position-value{font-style:normal}
+#controlSession{margin-top:8px;padding:7px;border:1px solid var(--line);background:#102b36;color:var(--cyan);cursor:pointer;font:600 10px "Segoe UI",sans-serif}
+#controlSession:disabled{opacity:.4;cursor:not-allowed}
+.sim-input-panel{margin-bottom:10px}.sim-input-panel p{margin:10px 14px;color:var(--muted);font-size:11px}
+.sim-input-buttons{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:7px;padding:0 14px}
+.sim-input-buttons button{display:flex;justify-content:space-between;gap:8px;padding:10px;border:1px solid var(--line);background:#0b171e;color:var(--text);cursor:pointer;text-align:left}
+.sim-input-buttons button.on{border-color:var(--green)}.sim-input-buttons button b{color:var(--amber)}.sim-input-buttons button.on b{color:var(--green)}
+.sim-input-buttons button.stop-control{border-color:var(--amber)}.sim-input-buttons button.stop-control.on{background:#342316;border-color:var(--amber)}.sim-input-buttons button.stop-control.on b{color:var(--amber)}
+.sim-input-buttons button small{display:block;margin-top:5px;font-size:10px;color:var(--muted)}.sim-input-buttons button b{font-size:10px;flex-shrink:0}
+.sim-input-panel button:disabled{opacity:.35;cursor:not-allowed}.sim-encoders{display:flex;flex-wrap:wrap;gap:14px;margin:14px}.sim-encoders label{font-size:11px;color:var(--muted)}
+.sim-encoders input{width:70px;margin:0 6px;background:#071116;color:white;border:1px solid var(--line);padding:7px}.sim-encoders button{background:#153441;color:var(--cyan);border:1px solid var(--line);padding:7px;cursor:pointer}.sim-encoders small{display:block;margin-top:5px;color:var(--amber);font:10px Consolas,monospace}
+.physical-input { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px; border: 1px solid #304753; border-radius: 6px; color: #a2b4bd; }
+.physical-input small { color: #889fa9; font-size: 10px; }
+.physical-input.on { border-color: #287452; color: #6de8a7; }
+.modbus-watch-panel{margin-bottom:10px}.modbus-watch{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:7px;padding:12px 14px}.watch-bit{display:grid;grid-template-columns:58px 1fr 34px;gap:8px;align-items:center;padding:9px;border:1px solid #304753;background:#071116;color:#91a8b2}.watch-bit b{color:var(--cyan);font:700 11px Consolas,monospace}.watch-bit span{font-size:11px}.watch-bit small{display:block;margin-top:3px;color:#6f8792;font-size:9px}.watch-bit strong{padding:4px 7px;border:1px solid #4a606a;text-align:center;font:800 14px Consolas,monospace}.watch-bit.on{border-color:#287452}.watch-bit.on strong{color:#27d17f;border-color:#287452}.watch-bit.off strong{color:#ff5564;border-color:#7e3340}
+#commissioningChecked { width: auto; }
+[hidden] { display: none !important; }

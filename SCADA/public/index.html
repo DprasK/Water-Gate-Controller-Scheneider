@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>AWGC Secure SCADA</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link rel="stylesheet" href="/control.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header>
+    <div class="brand"><span>AW</span><div><strong>AWGC CONTROL</strong><small>TM221CE24R · MODBUS TCP · IEC TAG MODEL</small></div></div>
+    <div class="header-state"><span id="mode">—</span><b id="connection" class="offline">PLC OFFLINE</b><time id="clock">--:--:--</time></div>
+  </header>
+  <main>
+    <p id="sourceInfo" role="status">Menunggu sumber data…</p>
+    <section class="overview">
+      <article><small>SYSTEM</small><strong id="systemState">NO DATA</strong><span id="commissioning">Commissioning —</span></article>
+      <article><small>WATER LEVEL 4–20 mA</small><strong><em id="waterPct">—</em> %</strong><span><i id="waterMm">—</i> mm</span></article>
+      <article><small>COMMUNICATION</small><strong><em id="latency">—</em> ms</strong><span id="lastUpdate">Belum ada data</span></article>
+      <article><small>REMOTE CONTROL</small><strong id="writeState">LOCKED</strong><span id="controlHint">Whitelist %MW50…%MW52</span><button id="controlSession" type="button" disabled>BUKA SESI KONTROL</button></article>
+    </section>
+
+    <section id="simInputPanel" class="panel sim-input-panel">
+      <div class="title"><b id="inputPanelTitle">KONTROL &amp; INPUT PLC</b><span id="inputPanelProfile">Memeriksa profil…</span></div>
+      <p id="simInputStatus">Membaca profil PLC…</p>
+      <div id="simInputButtons" class="sim-input-buttons"></div>
+      <p id="rev3Blockers" role="status">Menunggu status izin gerak.</p>
+      <div id="rev3PhysicalInputs" class="sim-input-buttons"></div>
+      <div id="simEncoders" class="sim-encoders" hidden>
+        <label>Posisi/Rotary G1 (0–100%)<input id="encoder1" type="number" min="0" max="100" step="1" value="0"><button data-encoder="1" disabled>KIRIM G1</button><small id="encoderCount1">count —</small></label>
+        <label>Posisi/Rotary G2 (0–100%)<input id="encoder2" type="number" min="0" max="100" step="1" value="0"><button data-encoder="2" disabled>KIRIM G2</button><small id="encoderCount2">count —</small></label>
+        <label>Posisi/Rotary G3 (0–100%)<input id="encoder3" type="number" min="0" max="100" step="1" value="0"><button data-encoder="3" disabled>KIRIM G3</button><small id="encoderCount3">count —</small></label>
+      </div>
+      <p id="simOutputStatus">Status output PLC belum tersedia.</p>
+      <p id="inputInstructions" class="sim-instruction">Menunggu profil PLC.</p>
+    </section>
+
+    <section class="panel modbus-watch-panel">
+      <div class="title"><b>MODBUS WATCH — VIRTUAL INPUT</b><span>%M BIT YANG DITULIS SCADA</span></div>
+      <div id="modbusWatch" class="modbus-watch"></div>
+    </section>
+
+    <section class="process-panel panel">
+      <div class="title"><b>CANAL GATE OVERVIEW</b><span>POSISI ENCODER ABSOLUTE OMRON E6CP</span></div>
+      <div class="process">
+        <div class="reservoir"><div id="waterFill" class="water"></div><span>WATER</span></div>
+        <div class="channel"></div>
+        <div class="gate-mini g1"><b>G1</b><div><i id="miniGate1"></i></div></div>
+        <div class="gate-mini g2"><b>G2</b><div><i id="miniGate2"></i></div></div>
+        <div class="gate-mini g3"><b>G3</b><div><i id="miniGate3"></i></div></div>
+      </div>
+    </section>
+
+    <section id="gateGrid" class="gate-grid"></section>
+
+    <section class="bottom-grid">
+      <article class="panel trend-panel">
+        <div class="title"><b>TREND — 90 SAMPEL</b><span>LEVEL + POSISI PINTU (%)</span></div>
+        <canvas id="trend" width="900" height="250"></canvas>
+        <div class="legend"><i class="water-line"></i>Water <i class="g1-line"></i>G1 <i class="g2-line"></i>G2 <i class="g3-line"></i>G3</div>
+      </article>
+      <article class="panel alarm-panel">
+        <div class="title"><b>ACTIVE ALARMS</b><span id="alarmCount">0 ACTIVE</span></div>
+        <div id="alarms" class="alarms"><p>Menunggu data…</p></div>
+      </article>
+    </section>
+
+    <section class="panel tag-panel">
+      <div class="title"><b>IEC 61131-3 TAG / MODBUS MAP</b><button id="toggleTags" type="button">TAMPILKAN</button></div>
+      <div id="tagTable" class="tag-table" hidden></div>
+    </section>
+  </main>
+  <dialog id="authDialog">
+    <form method="dialog">
+      <h2>Otorisasi kontrol</h2>
+      <p>Masukkan token dari terminal Jalankan_Kontrol_Schneider. Token hanya disimpan di memori tab. Setelah sesi dibuka, pilih kembali perintah yang dituju; tidak ada perintah yang dijalankan otomatis.</p>
+      <label>Control token<input id="tokenInput" type="password" minlength="20" autocomplete="off"></label>
+      <div><button value="cancel">BATAL</button><button id="saveToken" value="default">AKTIFKAN SESI</button></div>
+    </form>
+  </dialog>
+  <dialog id="commissioningDialog">
+    <form method="dialog">
+      <h2>Konfirmasi commissioning REV3</h2>
+      <p>Aktivasi %M5 adalah persetujuan operator, bukan hasil uji otomatis dan bukan bypass proteksi.</p>
+      <p><strong>Simulator Schneider:</strong> pastikan sumber benar-benar simulator yang menjalankan AWGC_REV3_BEFORE_SIM_INPUTS. Alamat lokal saja bukan bukti bahwa PLC fisik tidak terhubung.</p>
+      <p><strong>PLC fisik:</strong> hanya operator berwenang boleh melanjutkan setelah wiring, arah motor, encoder, limit, E-Stop dan overload diuji serta area gerak dipastikan aman.</p>
+      <label><input id="commissioningChecked" type="checkbox"> Saya telah memverifikasi sumber koneksi dan kondisi commissioning yang sesuai.</label>
+      <div><button value="cancel">BATAL</button><button id="confirmCommissioning" value="confirm">KONFIRMASI</button></div>
+    </form>
+  </dialog>
+  <div id="toast" role="status"></div>
+  <footer>SCADA bukan pengganti E-Stop, overload, limit switch, interlock kontaktor, dan proteksi motor fisik.</footer>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "appName": "AWGC 3 Pintu — Secure SCADA",
+  "listen": {
+    "host": "127.0.0.1",
+    "port": 3100,
+    "tlsCertFile": "",
+    "tlsKeyFile": ""
+  },
+  "plc": {
+    "mode": "modbus-tcp",
+    "host": "192.168.0.10",
+    "port": 502,
+    "unitId": 1,
+    "timeoutMs": 1500,
+    "pollIntervalMs": 500,
+    "floatWordOrder": "CDAB"
+  },
+  "security": {
+    "allowWrites": true,
+    "writeRatePerMinute": 12,
+    "auditFile": "./data/audit.jsonl"
+  }
+}

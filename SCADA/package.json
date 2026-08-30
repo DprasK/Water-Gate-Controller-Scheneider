@@ -1,0 +1,19 @@
+{
+  "name": "awgc-m221-secure-scada",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "SCADA Node.js tiga pintu AWGC Modicon M221 melalui Modbus TCP",
+  "scripts": {
+    "start": "node src/server.js",
+    "control": "node src/start-control.js",
+    "control:commissioning": "node src/start-control-profile.js config/commissioning-control.json",
+    "control:production": "node src/start-control-profile.js config/production-control.json",
+    "simulate": "node src/server.js --simulate",
+    "check": "node --check src/server.js && node --check src/modbus-client.js && node --check src/tag-model.js && node --check src/start-control-profile.js && node --check public/app.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  }
+}

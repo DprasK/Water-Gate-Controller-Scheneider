@@ -1,0 +1,26 @@
+# Node.js
+SCADA/node_modules/
+SCADA/npm-debug.log*
+SCADA/yarn-debug.log*
+SCADA/yarn-error.log*
+
+# Runtime/audit data
+SCADA/data/*.db
+SCADA/data/*.sqlite
+SCADA/data/*.sqlite3
+SCADA/data/*.log
+SCADA/logs/
+
+# Local environment
+.env
+*.local
+
+# Windows/macOS noise
+Thumbs.db
+Desktop.ini
+.DS_Store
+
+# Temporary files
+*.tmp
+*.bak
+~$*
